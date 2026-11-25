@@ -1,0 +1,233 @@
+[
+  {
+    "id": "58",
+    "group": "unanswerable",
+    "question": "How does requests make GraphQL queries?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "59",
+    "group": "unanswerable",
+    "question": "How does requests open a WebSocket connection?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "60",
+    "group": "unanswerable",
+    "question": "How does requests negotiate HTTP/2?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "61",
+    "group": "unanswerable",
+    "question": "How do I use requests with async and await?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "62",
+    "group": "unanswerable",
+    "question": "How does requests rate-limit outgoing requests?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "63",
+    "group": "unanswerable",
+    "question": "How does requests make gRPC calls?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "64",
+    "group": "unanswerable",
+    "question": "How does requests download files over FTP?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "65",
+    "group": "unanswerable",
+    "question": "How does requests refresh an expired OAuth 2 token?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "66",
+    "group": "unanswerable",
+    "question": "How does requests cache HTTP responses on disk?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "1",
+    "group": "answerable, chunk retrieved",
+    "question": "Where is the Session class defined?",
+    "refused": false,
+    "answer": "The Session class is defined in src/requests/sessions.py (see the class declaration in the snippet) [2]."
+  },
+  {
+    "id": "4",
+    "group": "answerable, chunk retrieved",
+    "question": "How does a Session pick which adapter to use for a URL?",
+    "refused": false,
+    "answer": "Session stores adapters in its adapters mapping (self.adapters) [2].  \nget_adapter iterates through self.adapters.items() and returns the first adapter whose prefix matches the start of the URL (case-insensitive comparison via url.lower().startswith(prefix.lower())) [1].  \nIf no adapter prefix matches the URL, get_adapter raises InvalidSchema [1]."
+  },
+  {
+    "id": "5",
+    "group": "answerable, chunk retrieved",
+    "question": "What headers does requests send by default?",
+    "refused": false,
+    "answer": "Requests sets these default headers by default:\n- \"User-Agent\": default_user_agent() [4]\n- \"Accept-Encoding\": DEFAULT_ACCEPT_ENCODING [4]\n- \"Accept\": \"*/*\" [4]\n- \"Connection\": \"keep-alive\" [4]"
+  },
+  {
+    "id": "6",
+    "group": "answerable, chunk retrieved",
+    "question": "What is the default User-Agent string?",
+    "refused": false,
+    "answer": "The default User-Agent is produced by default_user_agent(), which returns f\"{name}/{__version__}\" and defaults name to \"python-requests\" [1]. The default headers set \"User-Agent\" to default_user_agent() (i.e. \"python-requests/{__version__}\") [2]."
+  },
+  {
+    "id": "10",
+    "group": "answerable, chunk retrieved",
+    "question": "What does Response.ok check?",
+    "refused": false,
+    "answer": "Response.ok returns True if the response's status_code is less than 400 and False otherwise [3]. It is not a check for status == 200; it simply distinguishes client/server errors (>=400) from non-error codes (<400) [3]. Response.__bool__ delegates to .ok (i.e., bool(response) uses response.ok) [1]."
+  },
+  {
+    "id": "11",
+    "group": "answerable, chunk retrieved",
+    "question": "How does Response.is_redirect decide whether a response is a redirect?",
+    "refused": false,
+    "answer": "It returns True only if the response has a \"location\" header and its status_code is in REDIRECT_STATI \u2014 otherwise False [1]."
+  },
+  {
+    "id": "12",
+    "group": "answerable, chunk retrieved",
+    "question": "Where is CaseInsensitiveDict defined and how does it work?",
+    "refused": false,
+    "answer": "- The class CaseInsensitiveDict is defined in src/requests/structures.py (the file and class header are shown) [1].\n- It is a case-insensitive dict-like object that implements MutableMapping; all keys are expected to be strings [1].\n- The structure \"remembers the case of the last key to be set\", and iteration methods (iter(instance), keys(), items(), etc.) will yield the cased keys as stored [1].\n- Querying and membership testing are case-insensitive (e.g., headers['content-encoding'] will return the value of a 'Content-Encoding' header regardless of how it was stored) [1].\n- Internally it stores data in _store, an OrderedDict mapping to tuples of (original-cased-key, value) [1].\n- __iter__ yields the cased keys from the values stored in _store (it returns (casedkey for casedkey, _ in self._store.values())) [5].\n- copy() constructs a new CaseInsensitiveDict from self._store.values() [3].\n- Equality comparison converts the other mapping into a CaseInsensitiveDict and compares dict(self.lower_items()) == dict(other_dict.lower_items()), i.e., comparison is done case-insensitively [4].\n- The requests default headers are created using CaseInsensitiveDict in requests.utils.default_headers() [2]."
+  },
+  {
+    "id": "15",
+    "group": "answerable, chunk retrieved",
+    "question": "What does requests.get do?",
+    "refused": false,
+    "answer": "- The top-level requests.get function sends a GET request and returns a Response object; it is implemented as return request(\"get\", url, params=params, **kwargs) [2].\n- The Session method Session.get sets allow_redirects to True by default and then calls self.request(\"GET\", url, params=params, **kwargs) [1].\n- Session.request constructs a Request, prepares it, merges environment/settings, sends the prepared request, and returns a Response [4]."
+  },
+  {
+    "id": "16",
+    "group": "answerable, chunk retrieved",
+    "question": "What does Session.close do?",
+    "refused": false,
+    "answer": "Session.close iterates over the session's adapters and calls close() on each one, thereby closing all adapters (and thus the session) [2]. For an HTTPAdapter, close() clears its PoolManager and any ProxyManager(s), which closes any pooled connections [3]."
+  },
+  {
+    "id": "17",
+    "group": "answerable, chunk retrieved",
+    "question": "Where is the logic that runs hooks?",
+    "refused": false,
+    "answer": "The hook-execution logic is in dispatch_hook (src/requests/hooks.py), which iterates over the hooks for a key, calls each hook, and uses a hook's non-None return value to replace the hook_data [2]."
+  },
+  {
+    "id": "18",
+    "group": "answerable, chunk retrieved",
+    "question": "Which hook events exist by default?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "19",
+    "group": "answerable, chunk retrieved",
+    "question": "What does Response.links return?",
+    "refused": false,
+    "answer": "Response.links returns the parsed Link header links as a dict mapping strings to dicts of strings. [1]\n\nIt reads the \"link\" header, parses it with parse_header_links, and uses each link's \"rel\" value (or the link's \"url\" if no \"rel\") as the key. [1]\n\nEach value is the parsed link dict; if there is no Link header it returns an empty dict. [1]"
+  },
+  {
+    "id": "2",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "What does Session.send do and what does it return?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "3",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "What does Session.mount do?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "7",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "What is the default maximum number of redirects for a Session?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "8",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "Where are cookies stored in a session?",
+    "refused": false,
+    "answer": "Cookies are stored on the Session instance in its .cookies attribute (a RequestsCookieJar). [4]  \nprepare_request merges request cookies with self.cookies, showing the session cookie jar is used there. [2]"
+  },
+  {
+    "id": "9",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "What does Response.raise_for_status do?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "13",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "What is the base class of all requests exceptions?",
+    "refused": false,
+    "answer": "The base class is RequestException. [2][3][4]"
+  },
+  {
+    "id": "14",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "How is the Basic auth header string built?",
+    "refused": true,
+    "answer": "HTTPBasicAuth sets the Authorization header to the result of _basic_auth_str(self.username, self.password) [3].\n\nI don't know based on the retrieved code."
+  },
+  {
+    "id": "20",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "How does requests work out the length of a request body?",
+    "refused": false,
+    "answer": "PreparedRequest.prepare_content_length computes the body length by calling super_len(body) when body is not None, and if that length is truthy it sets the \"Content-Length\" header to that value. [1]\n\nIf the body is present but super_len yields no length (falsy), the code comments state the fallback is to use \"Transfer-Encoding: chunked\" (i.e., it leaves Content-Length unset). [1]\n\nIf the body is None and the request method is not GET or HEAD (and no Content-Length is already present), it sets \"Content-Length\" to \"0\". [1]"
+  },
+  {
+    "id": "28",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "How does requests limit redirects?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "31",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "How does requests handle a relative Location header?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  },
+  {
+    "id": "32",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "What happens to the request body when a redirect is followed?",
+    "refused": false,
+    "answer": "Requests will attempt to rewind the request body to its recorded starting position so it can be read again when following a redirect [1].  \nIf the body doesn't support seeking or the recorded position isn't available, Requests raises UnrewindableBodyError instead of rewinding [1].  \nSeparately, Requests may change the request method when redirecting (for example turning certain statuses into GET), which is handled by rebuild_method [5]."
+  },
+  {
+    "id": "36",
+    "group": "answerable, chunk NOT retrieved",
+    "question": "When does requests use chunked transfer encoding for an upload?",
+    "refused": true,
+    "answer": "I don't know based on the retrieved code."
+  }
+]

@@ -29,3 +29,16 @@ Hit rate@5:  0.74
 Recall@5:    0.67
 MRR@10:      0.54
 By kind (hits): lookup 19/27, behaviour 15/20, multi 8/10
+
+# Step 4: why questions missed
+
+- 13 of 15 misses have an expected chunk longer than 256 tokens (model reading limit), vs 22 of 42 hits.
+  Suggestive, small sample. Truncation is a risk factor, not the only cause.
+- Two misses are short chunks (Session.mount 110 tokens, RequestException 42 tokens): truncation does not explain them.
+
+# Step 4: refusal and answer quality
+
+- Unanswerable: 9/9 refused. Retrieved-chunk questions: 11/12 answered (row 18 refused).
+- Row 18 (default hook events): answer is in module-level HOOKS constant, which no chunk contains (Step 1 edge case 3).
+- Row 32: valid citation, misleading answer. Retrieval missed resolve_redirects, so the model described rewind_body instead of "body is dropped unless 307/308". A citation checker cannot catch this.
+- Metric limits: "refused" matches the phrase anywhere (row 14 was a partial answer); row 8's label omits the Session header chunk that does contain the answer.
