@@ -21,3 +21,11 @@
   A retrieval failure, not a generation failure. Hypotheses to test in Step 5:
   (a) class name is missing from the embedded method text, (b) keyword search would catch "mount".
 - Model mislabels methods (Session.resolve_redirects instead of SessionRedirectMixin.resolve_redirects).
+
+# Baseline (vector search only, all-MiniLM-L6-v2, code text only, top 5)
+
+Answerable questions: 57   (66 total, 9 unanswerable excluded)
+Hit rate@5:  0.74
+Recall@5:    0.67
+MRR@10:      0.54
+By kind (hits): lookup 19/27, behaviour 15/20, multi 8/10
