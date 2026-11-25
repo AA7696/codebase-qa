@@ -4,3 +4,5 @@ __pycache__/
 .env
 .DS_Store
 data/repos/
+data/chunks.json
+data/embeddings.npy
