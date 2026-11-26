@@ -52,3 +52,9 @@ By kind (hits): lookup 19/27, behaviour 15/20, multi 8/10
 
 5.1: fixed rows 3 (Session.mount) and 13 (RequestException); newly missed row 5.
 Rows 8, 9, 31, 48 ranked worse. One question = 1.75 points of hit rate, so +0.01 is a single question.
+
+| + hybrid search (BM25 + vector, RRF)      | 0.79  | 0.71     | 0.62   |
+
+Keyword only (BM25): 0.72 / 0.65 / 0.57.
+5.2: fixed rows 32, 5, 14, 7; broke rows 1, 13. Net +2 questions (43 -> 45 of 57).
+Of 12 remaining misses, 7 are at rank 6 to 9 (reranker candidates); 5 are far (long chunks?).
