@@ -102,3 +102,19 @@ Expected chunk not found (3): faithful 3/3, correct yes 1 / partly 1 / no 1 (row
 Faithfulness was at ceiling, so it did not discriminate; correctness did.
 Rows 34, 49 "partly" despite chunk found: reference answer may be broader than the question (to check).
 Limits: tiny sample, same-model judge, reference answers only verified for sessions.py.
+
+# Retrieval ablation (57 answerable questions, top 5)
+
+| Version                                          | Hit@5 | Recall@5 | MRR@10 |
+|--------------------------------------------------|-------|----------|--------|
+| Baseline: vector search, code only               | 0.74  | 0.67     | 0.54   |
+| + file and symbol name in embedded text (5.1)    | 0.75  | 0.69     | 0.60   |
+| + hybrid search, BM25 + vector with RRF (5.2)    | 0.79  | 0.71     | 0.62   |
+| + cross-encoder reranker, top 10 (5.3)           | 0.86  | 0.76     | 0.77   |
+| + pieces for long chunks (5.4)                   | 0.86  | 0.77     | 0.76   |
+| New chunker, docs/ skipped, core chunks (5.5)    | 0.88  | 0.79     | 0.77   |
+| + docstring chunks (final index)                 | 0.86  | 0.77     | 0.74   |
+
+Final pipeline = pieces + hybrid + rerank 10 + docstring chunks, with constants added as context after ranking.
+One question = 1.75 points of hit rate. Rows 5.5 onward are not strictly comparable to earlier rows
+(the chunk set changed), and the depth/pieces choices were made on the same 57 questions.
