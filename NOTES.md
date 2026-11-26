@@ -95,3 +95,10 @@ Search ranking = "+ docstring" row (0.86 / 0.77 / 0.74); answer quality on 57 qu
 Sample of 20 (every 3rd row; only 1 unanswerable): expected chunk in top 5 for 15 of 19 answerable.
 Answered without the expected chunk: rows 13, 31, 46 (to check by hand). Refused honestly: row 40.
 ~2,500 tokens per question.
+
+5.6b judge (gpt-5-mini, same model as generator), 18 judged answers from a sample of 20:
+Expected chunk found (15): faithful 15/15, correct yes 13 / partly 2.
+Expected chunk not found (3): faithful 3/3, correct yes 1 / partly 1 / no 1 (row 31).
+Faithfulness was at ceiling, so it did not discriminate; correctness did.
+Rows 34, 49 "partly" despite chunk found: reference answer may be broader than the question (to check).
+Limits: tiny sample, same-model judge, reference answers only verified for sessions.py.
