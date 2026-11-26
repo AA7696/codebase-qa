@@ -84,3 +84,9 @@ Control is 1 question above the 5.4 result (docs/ chunk removed, chunk order cha
 Probe ranks: docstrings P2=1. Constants: P1=22 (fails), P3=5, P4=1.
 Newly missed vs control: row 2 (docstring, constants, both); row 48 (constants, both).
 Decision: docstring chunks in search index; constants kept out of ranking, tried as context expansion (5.5c).
+
+5.5c (constants as context after ranking; docstring chunks in index):
+Row 18 / P1 fixed: refusal -> correct answer ("response", hooks.py:22). P3 answered from models.py:95-105.
+P4 not a clean test (Session.__init__ comment already says 30). 4 probes only.
+Limitation: expansion adds unrelated constants (compat.py:110-115 in 3 of 4 prompts); tighten later.
+Search ranking = "+ docstring" row (0.86 / 0.77 / 0.74); answer quality on 57 questions not re-measured.
