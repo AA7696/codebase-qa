@@ -42,3 +42,13 @@ By kind (hits): lookup 19/27, behaviour 15/20, multi 8/10
 - Row 18 (default hook events): answer is in module-level HOOKS constant, which no chunk contains (Step 1 edge case 3).
 - Row 32: valid citation, misleading answer. Retrieval missed resolve_redirects, so the model described rewind_body instead of "body is dropped unless 307/308". A citation checker cannot catch this.
 - Metric limits: "refused" matches the phrase anywhere (row 14 was a partial answer); row 8's label omits the Session header chunk that does contain the answer.
+
+# Ablation table (57 answerable questions, top 5)
+
+| Version                                   | Hit@5 | Recall@5 | MRR@10 |
+|-------------------------------------------|-------|----------|--------|
+| Baseline: vector only, code only          | 0.74  | 0.67     | 0.54   |
+| + file and symbol name in embedded text   | 0.75  | 0.69     | 0.60   |
+
+5.1: fixed rows 3 (Session.mount) and 13 (RequestException); newly missed row 5.
+Rows 8, 9, 31, 48 ranked worse. One question = 1.75 points of hit rate, so +0.01 is a single question.

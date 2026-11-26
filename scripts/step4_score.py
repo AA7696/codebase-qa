@@ -1,5 +1,6 @@
 import csv
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -7,8 +8,11 @@ from sentence_transformers import SentenceTransformer, util
 
 K = 5
 
+embeddings_file = sys.argv[1] if len(sys.argv) > 1 else "data/embeddings.npy"
+print("Using embeddings:", embeddings_file)
+
 chunks = json.loads(Path("data/chunks.json").read_text(encoding="utf-8"))
-embeddings = np.load("data/embeddings.npy")
+embeddings = np.load(embeddings_file)
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
 with Path("data/golden.csv").open(encoding="utf-8-sig", newline="") as f:
