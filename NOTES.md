@@ -43,7 +43,7 @@ By kind (hits): lookup 19/27, behaviour 15/20, multi 8/10
 - Row 32: valid citation, misleading answer. Retrieval missed resolve_redirects, so the model described rewind_body instead of "body is dropped unless 307/308". A citation checker cannot catch this.
 - Metric limits: "refused" matches the phrase anywhere (row 14 was a partial answer); row 8's label omits the Session header chunk that does contain the answer.
 
-# Ablation table (57 answerable questions, top 5)
+# Step 5: Ablation table (57 answerable questions, top 5)
 
 | Version                                   | Hit@5 | Recall@5 | MRR@10 |
 |-------------------------------------------|-------|----------|--------|
@@ -58,3 +58,10 @@ Rows 8, 9, 31, 48 ranked worse. One question = 1.75 points of hit rate, so +0.01
 Keyword only (BM25): 0.72 / 0.65 / 0.57.
 5.2: fixed rows 32, 5, 14, 7; broke rows 1, 13. Net +2 questions (43 -> 45 of 57).
 Of 12 remaining misses, 7 are at rank 6 to 9 (reranker candidates); 5 are far (long chunks?).
+
+| + reranker (ms-marco MiniLM), top 10      | 0.86  | 0.76     | 0.77   |
+
+Reranker depth: 10 -> 0.86/0.76/0.77, 20 -> 0.86/0.79/0.74, 40 -> 0.84/0.77/0.74.
+Chose depth 10 (same hit rate as 20, higher MRR, half the cost). Depth was chosen on the same 57 questions.
+5.3: fixed rows 57, 1, 20, 28, 48, 9; broke rows 32, 46. Net +4 questions (45 -> 49 of 57).
+Still missed (8): rows 32, 36, 46 (rank 8-10); rows 2, 13, 31, 8, 40 (rank 14-40, outside the reranker's pool).
