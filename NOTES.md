@@ -90,3 +90,8 @@ Row 18 / P1 fixed: refusal -> correct answer ("response", hooks.py:22). P3 answe
 P4 not a clean test (Session.__init__ comment already says 30). 4 probes only.
 Limitation: expansion adds unrelated constants (compat.py:110-115 in 3 of 4 prompts); tighten later.
 Search ranking = "+ docstring" row (0.86 / 0.77 / 0.74); answer quality on 57 questions not re-measured.
+
+5.6a: pipeline in scripts/rag.py (pieces + hybrid + rerank 10 + constants as context).
+Sample of 20 (every 3rd row; only 1 unanswerable): expected chunk in top 5 for 15 of 19 answerable.
+Answered without the expected chunk: rows 13, 31, 46 (to check by hand). Refused honestly: row 40.
+~2,500 tokens per question.
