@@ -74,3 +74,13 @@ Still missed (8): rows 32, 36, 46 (rank 8-10); rows 2, 13, 31, 8, 40 (rank 14-40
 (49 of 57; the same 8 questions missed). Far misses became near misses (rank 6-16).
 Untested idea: the reranker also truncates long chunks (max_length 512); try reranking best pieces.
 Decision on keeping pieces: ____ because ____
+
+| 5.5 control: core chunks only (new chunker)  | 0.88 | 0.79 | 0.77 |
+| + docstring chunks                            | 0.86 | 0.77 | 0.74 |
+| + constants chunks                            | 0.84 | 0.76 | 0.74 |
+| + both                                        | 0.84 | 0.76 | 0.71 |
+
+Control is 1 question above the 5.4 result (docs/ chunk removed, chunk order changed; cause not isolated).
+Probe ranks: docstrings P2=1. Constants: P1=22 (fails), P3=5, P4=1.
+Newly missed vs control: row 2 (docstring, constants, both); row 48 (constants, both).
+Decision: docstring chunks in search index; constants kept out of ranking, tried as context expansion (5.5c).
