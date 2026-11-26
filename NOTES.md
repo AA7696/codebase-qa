@@ -65,3 +65,12 @@ Reranker depth: 10 -> 0.86/0.76/0.77, 20 -> 0.86/0.79/0.74, 40 -> 0.84/0.77/0.74
 Chose depth 10 (same hit rate as 20, higher MRR, half the cost). Depth was chosen on the same 57 questions.
 5.3: fixed rows 57, 1, 20, 28, 48, 9; broke rows 32, 46. Net +4 questions (45 -> 49 of 57).
 Still missed (8): rows 32, 36, 46 (rank 8-10); rows 2, 13, 31, 8, 40 (rank 14-40, outside the reranker's pool).
+
+| + pieces for long chunks (vector only)    | 0.81  | 0.74     | 0.63   |
+| + pieces + hybrid                         | 0.84  | 0.76     | 0.66   |
+| + pieces + hybrid + rerank top 10         | 0.86  | 0.77     | 0.76   |
+
+5.4: pieces help the search stages (+3 questions each) but the final pipeline is unchanged
+(49 of 57; the same 8 questions missed). Far misses became near misses (rank 6-16).
+Untested idea: the reranker also truncates long chunks (max_length 512); try reranking best pieces.
+Decision on keeping pieces: ____ because ____
