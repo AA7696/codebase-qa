@@ -8,3 +8,4 @@ psycopg[binary]
 pgvector
 sqlalchemy
 alembic
+pwdlib[argon2]
