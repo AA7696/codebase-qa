@@ -3,7 +3,7 @@ import json
 import sys
 from pathlib import Path
 
-from rag import ask, refused
+from app.rag import ask, refused
 
 LIMIT = int(sys.argv[1]) if len(sys.argv) > 1 else 20
 

@@ -2,3 +2,7 @@ sentence-transformers
 openai
 python-dotenv
 rank-bm25
+fastapi
+uvicorn
+psycopg[binary]
+pgvector

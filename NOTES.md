@@ -118,3 +118,8 @@ Limits: tiny sample, same-model judge, reference answers only verified for sessi
 Final pipeline = pieces + hybrid + rerank 10 + docstring chunks, with constants added as context after ranking.
 One question = 1.75 points of hit rate. Rows 5.5 onward are not strictly comparable to earlier rows
 (the chunk set changed), and the depth/pieces choices were made on the same 57 questions.
+
+6.2: Postgres 17 + pgvector 0.8.7 in Docker (pgvector/pgvector:pg17), Python connects via psycopg.
+Gotcha 1: "@" in the password broke the DATABASE_URL (use letters and numbers only).
+Gotcha 2: a Postgres service already installed on the laptop (postgres.exe) held port 5432, so the app was
+talking to the wrong database. Docker's database now uses host port 5433. Found with netstat + tasklist.
