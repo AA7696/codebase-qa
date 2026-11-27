@@ -9,3 +9,5 @@ pgvector
 sqlalchemy
 alembic
 pwdlib[argon2]
+python-multipart
+pyjwt
