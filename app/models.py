@@ -1,7 +1,11 @@
 from datetime import datetime
+from typing import Any
 
-from sqlalchemy import DateTime, String, func
+from pgvector.sqlalchemy import Vector
+from sqlalchemy import DateTime, ForeignKey, String, Text, UniqueConstraint, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+
+EMBEDDING_DIM = 384
 
 
 class Base(DeclarativeBase):
@@ -15,3 +19,35 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String(255))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class Repo(Base):
+    __tablename__ = "repos"
+    __table_args__ = (UniqueConstraint("user_id", "name"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    name: Mapped[str] = mapped_column(String(200))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class Chunk(Base):
+    __tablename__ = "chunks"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    repo_id: Mapped[int] = mapped_column(ForeignKey("repos.id", ondelete="CASCADE"), index=True)
+    file: Mapped[str] = mapped_column(String(500))
+    name: Mapped[str] = mapped_column(String(500))
+    kind: Mapped[str] = mapped_column(String(20))  # code, docstring or constants
+    start_line: Mapped[int]
+    end_line: Mapped[int]
+    code: Mapped[str] = mapped_column(Text)
+    search_text: Mapped[str] = mapped_column(Text)
+
+
+class Piece(Base):
+    __tablename__ = "pieces"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    chunk_id: Mapped[int] = mapped_column(ForeignKey("chunks.id", ondelete="CASCADE"), index=True)
+    embedding: Mapped[Any] = mapped_column(Vector(EMBEDDING_DIM))
