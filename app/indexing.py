@@ -1,5 +1,6 @@
 from sentence_transformers import SentenceTransformer
 from sqlalchemy.orm import Session
+from app.text import tokenize
 
 from app.models import Chunk, Piece, Repo
 
@@ -53,6 +54,8 @@ def add_repo(
         )
         for c in chunks
     ]
+    for row in rows:
+        row.search_tokens = " ".join(tokenize(row.search_text))
     db.add_all(rows)
     db.flush()  # gives every chunk its id
 

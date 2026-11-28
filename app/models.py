@@ -2,7 +2,8 @@ from datetime import datetime
 from typing import Any
 
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import DateTime, ForeignKey, String, Text, UniqueConstraint, func
+from sqlalchemy import Computed, DateTime, ForeignKey, Index, String, Text, UniqueConstraint, func
+from sqlalchemy.dialects.postgresql import TSVECTOR
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 EMBEDDING_DIM = 384
@@ -33,6 +34,7 @@ class Repo(Base):
 
 class Chunk(Base):
     __tablename__ = "chunks"
+    __table_args__ = (Index("ix_chunks_search_vector", "search_vector", postgresql_using="gin"),)
 
     id: Mapped[int] = mapped_column(primary_key=True)
     repo_id: Mapped[int] = mapped_column(ForeignKey("repos.id", ondelete="CASCADE"), index=True)
@@ -43,6 +45,10 @@ class Chunk(Base):
     end_line: Mapped[int]
     code: Mapped[str] = mapped_column(Text)
     search_text: Mapped[str] = mapped_column(Text)
+    search_tokens: Mapped[str] = mapped_column(Text, server_default="")
+    search_vector: Mapped[Any] = mapped_column(
+        TSVECTOR, Computed("to_tsvector('simple', search_tokens)", persisted=True)
+    )
 
 
 class Piece(Base):
